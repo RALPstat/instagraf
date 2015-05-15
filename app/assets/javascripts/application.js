@@ -34,6 +34,7 @@ var precioArranque;
 var precioImpresion;
 var precioTintas;
 var precioRefile;
+var zwitch = false
 //precio del papel = (3.5*ancho*alto*gramaje*cantidad)
 
 
@@ -569,6 +570,25 @@ $(document).ready(function () {
             alert("No puede haber espacios en blanco");
             $("#cantidad1").val("blank");
         } else {
+            zwitch = true
+            var unitGTO = Math.floor(calcularGTO() / $("#cantidad1").val());
+            var precioGTO = unitGTO * $("#cantidad1").val();
+            var unitSM = Math.floor(calcularSM() / $("#cantidad1").val());
+            var precioSM = unitSM * $("#cantidad1").val();
+            if (precioSM === 0) {
+                $("#total1").val("Valor total = $" + precioGTO);
+                $("#unit1").val("Valor unitario = $" + unitGTO);
+            } else if (precioGTO === 0) {
+                $("#total1").val("Valor total = $" + precioSM);
+                $("#unit1").val("Valor unitario = $" + unitSM);
+            } else {
+                $("#total1").val("Valor total = $" + Math.min(precioGTO, precioSM));
+                $("#unit1").val("Valor unitario = $" + Math.min(unitGTO, unitSM));
+            }
+        }
+    });
+    $(".form").change(function () {
+        if(zwitch == true){
             var unitGTO = Math.floor(calcularGTO() / $("#cantidad1").val());
             var precioGTO = unitGTO * $("#cantidad1").val();
             var unitSM = Math.floor(calcularSM() / $("#cantidad1").val());
